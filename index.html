@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Canvas</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/stylesheets/normalize.css">
+    <link rel="stylesheet" type="text/css" href="assets/stylesheets/style.css">
+
+    <link rel="shortcut icon" href="favicon.ico">
+  </head>
+
+  <body>
+    <h1>
+      <a href="/">Canvas</a>
+    </h1>
+
+    <h2>Colors</h2>
+
+    <ol id="colors">
+      <li data-color="#3e3e3e" class="active">black</li>
+      <li data-color="#e33d27">red</li>
+      <li data-color="#23db2a">green</li>
+      <li data-color="#3581fc">blue</li>
+      <li data-color="#bdbdbd">gray</li>
+      <li data-color="#904fff">violet</li>
+      <li data-color="#ffe226">yellow</li>
+    </ol>
+
+    <h2>Tools</h2>
+
+    <ol id="tools">
+      <li data-weight="1" id="pencil" class="active">Pencil</li>
+      <li data-weight="10" id="brush">Brush</li>
+    </ol>
+
+    <h2>Actions</h2>
+
+    <ol id="actions">
+      <li id="undo">Undo</li>
+      <li id="undo-all">First</li>
+    </ol>
+
+    <a href="#" id="eraser">Eraser</a>
+
+    <canvas height="600" width="800">Canvas not available.</canvas>
+  </body>
+
+  <script src="assets/javascripts/canvas.js"></script>
+</html>

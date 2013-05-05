@@ -1,0 +1,87 @@
+$color-blue:   #3581fc;
+$color-gray:   #bdbdbd;
+$color-green:  #23db2a;
+$color-red:    #e33d27;
+$color-violet: #904fff;
+$color-yellow: #ffe226;
+
+$color-black: #3e3e3e;
+$color-white: #f5f6f6;
+
+// Enables ligature for the current element. Useful when using icon-fonts with
+// semantic identifiers.
+@mixin enable-ligatures() {
+  -webkit-font-feature-settings: 'liga', 'dlig';
+     -moz-font-feature-settings: 'liga=1, dlig=1';
+     -moz-font-feature-settings: 'liga', 'dlig';
+      -ms-font-feature-settings: 'liga', 'dlig';
+       -o-font-feature-settings: 'liga', 'dlig';
+          font-feature-settings: 'liga', 'dlig';
+}
+
+@font-face {
+  font: {
+    family: 'Canvas islovely';
+    style: normal;
+    weight: normal;
+  }
+  src: url('../fonts/Canvas islovely/icons.eot');
+  src: url('../fonts/Canvas islovely/icons.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/Canvas islovely/icons.woff') format('woff'),
+       url('../fonts/Canvas islovely/icons.ttf') format('truetype'),
+       url('../fonts/Canvas islovely/icons.svg#Canvas-islovely') format('svg');
+}
+
+html {
+  font-size: 62.5%;
+}
+
+canvas {
+  background: $color-white;
+  border: 1px solid;
+  cursor: crosshair;
+}
+
+ol {
+  list-style: none;
+  overflow: hidden;
+  padding: 0;
+
+  > li {
+    $diameter: 2em; // 48px
+
+    border: {
+      color: darken($color-white, 12%);
+      width: 0.25em; // 6px
+      radius: 50%;
+      style: solid;
+    }
+    cursor: pointer;
+    float: left;
+    font-size: 2.4em;
+    height: $diameter;
+    line-height: 2em; // 48px
+    margin-right: 0.2em; // 5px
+    text-align: center;
+    width: $diameter;
+
+    &.active {
+      border-color: lighten($color-black, 12%);
+    }
+  }
+}
+
+#brush,
+#pencil,
+#undo,
+#undo-all {
+  @include enable-ligatures();
+
+  font-family: 'Canvas islovely';
+}
+
+#colors {
+  > li {
+    text-indent: -999em;
+  }
+}
