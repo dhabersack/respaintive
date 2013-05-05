@@ -6,7 +6,7 @@ $color-violet: #904fff;
 $color-yellow: #ffe226;
 
 $color-black: #3e3e3e;
-$color-white: #f5f6f6;
+$color-white: #fdfdfd;
 
 // Enables ligature for the current element. Useful when using icon-fonts with
 // semantic identifiers.
@@ -21,37 +21,66 @@ $color-white: #f5f6f6;
 
 @font-face {
   font: {
-    family: 'Canvas islovely';
+    family: 'Canvas Icons';
     style: normal;
     weight: normal;
   }
-  src: url('../fonts/Canvas islovely/icons.eot');
-  src: url('../fonts/Canvas islovely/icons.eot?#iefix') format('embedded-opentype'),
-       url('../fonts/Canvas islovely/icons.woff') format('woff'),
-       url('../fonts/Canvas islovely/icons.ttf') format('truetype'),
-       url('../fonts/Canvas islovely/icons.svg#Canvas-islovely') format('svg');
+  src: url('../fonts/Canvas Icons/icons.eot');
+  src: url('../fonts/Canvas Icons/icons.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/Canvas Icons/icons.woff') format('woff'),
+       url('../fonts/Canvas Icons/icons.ttf') format('truetype'),
+       url('../fonts/Canvas Icons/icons.svg#Canvas-Icons') format('svg');
 }
 
-html {
-  font-size: 62.5%;
+body {
+  padding: 1.2em 1em;
 }
 
 canvas {
   background: $color-white;
-  border: 1px solid;
+  box-shadow: 0 0 0.2em $color-black;
+  border-radius: 0.2em;
+  clear: both;
   cursor: crosshair;
+  float: left;
+}
+
+h1 {
+  color: $color-red;
+  font-size: 3em;
+  line-height: 1.6em;
+  margin: 0 0 0.4em; // 12px
+
+  > a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.6em;
+  line-height: 1.5em;
+}
+
+html {
+  background: lighten($color-white, 6%);
+  color: $color-black;
+  font-size: 62.5%;
 }
 
 ol {
   list-style: none;
+  margin: 0;
   overflow: hidden;
   padding: 0;
 
   > li {
     $diameter: 2em; // 48px
 
+    background: darken($color-white, 6%);
     border: {
-      color: darken($color-white, 12%);
+      color: darken($color-white, 18%);
       width: 0.25em; // 6px
       radius: 50%;
       style: solid;
@@ -65,19 +94,55 @@ ol {
     text-align: center;
     width: $diameter;
 
+    &:hover {
+      border-color: lighten($color-blue, 6%);
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+
     &.active {
-      border-color: lighten($color-black, 12%);
+      border-color: darken($color-black, 6%);
+      cursor: default;
     }
   }
 }
 
+section {
+  float: left;
+  margin: 0 2em 1.2em 0;
+}
+
 #brush,
 #pencil,
+#redo,
 #undo,
 #undo-all {
   @include enable-ligatures();
 
-  font-family: 'Canvas islovely';
+  font-family: 'Canvas Icons';
+  text-shadow: 0 0.0625em $color-white;
+}
+
+#redo,
+#undo,
+#undo-all {
+  color: darken($color-white, 24%);
+
+  &:hover {
+    border-color: darken($color-white, 18%);
+    cursor: default;
+  };
+
+  &.available {
+    color: $color-black;
+
+    &:hover {
+      border-color: lighten($color-blue, 6%);
+      cursor: pointer;
+    };
+  }
 }
 
 #colors {
