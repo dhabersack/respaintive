@@ -98,6 +98,11 @@ section {
     #undo-all.available:hover {
       border-color: #5394fc;
       cursor: pointer; }
+  #redo > span,
+  #undo > span,
+  #undo-all > span {
+    font-size: 0.5em;
+    line-height: 2em; }
 
 #colors > li {
   text-indent: -999em; }
