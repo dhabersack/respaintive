@@ -3,7 +3,9 @@ canvas = document.querySelector('canvas')
 colors = document.querySelectorAll('#colors > li')
 tools = document.querySelectorAll('#tools > li')
 redo = document.getElementById('redo')
+redoCount = document.querySelector('#redo > span')
 undo = document.getElementById('undo')
+undoCount = document.querySelector('#undo > span')
 undoAll = document.getElementById('undo-all')
 context = canvas.getContext('2d')
 
@@ -52,7 +54,9 @@ draw = (event) ->
 stopDrawing = (event) ->
   context.closePath()
   allMoves.push currentMove
+  updateUndoCount()
   undoneMoves = []
+  updateRedoCount()
   redo.className = ''
   enableUndo()
   isDrawing = false
@@ -83,12 +87,13 @@ selectTool = (event) ->
 initializeCurrentMove = (x, y) ->
   currentMove = {
     lineWidth: context.lineWidth,
+    startingPoint: { x: x, y: y },
     strokeStyle: context.strokeStyle,
-    moves: [{ x: x, y: y }]
+    points: []
   }
 
 addCoordinatesToCurrentMove = (x, y) ->
-  currentMove.moves.push { x: x, y: y }
+  currentMove.points.push { x: x, y: y }
 
 # undoes the last move by clearing the canvas and redoing all previous moves
 executeUndo = ->
@@ -99,6 +104,8 @@ executeUndo = ->
   strokeStyle = context.strokeStyle
 
   undoneMoves.push allMoves.pop()
+  updateUndoCount()
+  updateRedoCount()
   (repeatMove(move) for move in allMoves)
 
   # restore state
@@ -120,22 +127,40 @@ disableUndo = ->
 
 executeRedo = ->
   undoneMove = undoneMoves.pop()
-  repeatMove(undoneMove)
-  if undoneMoves.length == 0
-    redo.className = ''
+  if undoneMove
+    # save state
+    lineWidth = context.lineWidth
+    strokeStyle = context.strokeStyle
+
+    repeatMove(undoneMove)
+    allMoves.push undoneMove
+    updateUndoCount()
+    updateRedoCount()
+    enableUndo()
+
+    if undoneMoves.length == 0
+      redo.className = ''
+
+    # restore state
+    context.lineWidth = lineWidth
+    context.strokeStyle = strokeStyle
+
+updateRedoCount = ->
+  redoCount.innerHTML = undoneMoves.length
+
+updateUndoCount = ->
+  undoCount.innerHTML = allMoves.length
 
 executeUndoAll = ->
-  clearCanvas()
-  allMoves = []
-  disableUndo()
+  (executeUndo() for move in allMoves)
 
 repeatMove = (move) ->
   context.beginPath()
   context.strokeStyle = move.strokeStyle
   context.lineWidth = move.lineWidth
-  firstMove = move.moves[0]
+  firstMove = move.startingPoint
   context.moveTo(firstMove.x, firstMove.y)
-  (drawLineTo(item.x, item.y) for item in move.moves)
+  (drawLineTo(point.x, point.y) for point in move.points)
   context.closePath()
 
 clearCanvas = ->
