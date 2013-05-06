@@ -82,10 +82,12 @@ undoHistory = new MoveHistory()
 
 # Extract coordinates from events.
 getEventX = (event) ->
-  if event.offsetX then event.offsetX else event.layerX - canvas.offsetLeft
+  x = if event.offsetX then event.offsetX else event.layerX - canvas.offsetLeft
+  if event.touches then event.touches[0].clientX - canvas.offsetLeft else x
 
 getEventY = (event) ->
-  if event.offsetY then event.offsetY else event.layerY - canvas.offsetTop
+  y = if event.offsetY then event.offsetY else event.layerY - canvas.offsetTop
+  if event.touches then event.touches[0].clientY - canvas.offsetTop else y
 
 
 ####################
@@ -114,6 +116,8 @@ draw = (event) ->
 
     drawLineTo(new Point(x, y))
     currentMove.addPoint(new Point(x, y))
+
+  event.preventDefault()
 
 stopDrawing = (event) ->
   context.closePath()
@@ -237,9 +241,12 @@ initializeTool  tool  for tool  in tools
 ####################
 
 # register event listeners
-canvas.addEventListener  'mousedown', startDrawing,   false
-canvas.addEventListener  'mousemove', draw,           false
-canvas.addEventListener  'mouseup',   stopDrawing,    false
-redo.addEventListener    'click',     executeRedo,    false
-undo.addEventListener    'click',     executeUndo,    false
-undoAll.addEventListener 'click',     executeUndoAll, false
+canvas.addEventListener  'mousedown',  startDrawing,   false
+canvas.addEventListener  'touchstart', startDrawing,   false
+canvas.addEventListener  'mousemove',  draw,           false
+canvas.addEventListener  'touchmove',  draw,           false
+canvas.addEventListener  'mouseup',    stopDrawing,    false
+canvas.addEventListener  'touchend',   stopDrawing,    false
+redo.addEventListener    'click',      executeRedo,    false
+undo.addEventListener    'click',      executeUndo,    false
+undoAll.addEventListener 'click',      executeUndoAll, false
