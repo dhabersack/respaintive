@@ -1,12 +1,11 @@
+$color-black:  #3e3e3e;
 $color-blue:   #3581fc;
 $color-gray:   #bdbdbd;
 $color-green:  #23db2a;
 $color-red:    #e33d27;
 $color-violet: #904fff;
+$color-white:  #fdfdfd;
 $color-yellow: #ffe226;
-
-$color-black: #3e3e3e;
-$color-white: #fdfdfd;
 
 // Enables ligature for the current element. Useful when using icon-fonts with
 // semantic identifiers.
@@ -43,6 +42,12 @@ canvas {
   clear: both;
   cursor: crosshair;
   float: left;
+  margin-bottom: 1.2em;
+}
+
+footer {
+  clear: both;
+  color: $color-gray;
 }
 
 h1 {
@@ -58,7 +63,7 @@ h1 {
 }
 
 h2 {
-  margin: 0;
+  margin: 0 0 0.375em; // 0 0 6px
   font-size: 1.6em;
   line-height: 1.5em;
 }
@@ -107,6 +112,11 @@ ol {
       cursor: default;
     }
   }
+}
+
+p {
+  font-size: 1.2em;
+  line-height: 1.5em;
 }
 
 section {
