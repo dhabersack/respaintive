@@ -7,16 +7,12 @@ $color-violet: #904fff;
 $color-white:  #fdfdfd;
 $color-yellow: #ffe226;
 
-// Enables ligature for the current element. Useful when using icon-fonts with
-// semantic identifiers.
-@mixin enable-ligatures() {
-  -webkit-font-feature-settings: 'liga', 'dlig';
-     -moz-font-feature-settings: 'liga=1, dlig=1';
-     -moz-font-feature-settings: 'liga', 'dlig';
-      -ms-font-feature-settings: 'liga', 'dlig';
-       -o-font-feature-settings: 'liga', 'dlig';
-          font-feature-settings: 'liga', 'dlig';
-}
+$icon-pencil:   '\e000';
+$icon-brush:    '\e001';
+$icon-undo:     '\e002';
+$icon-undo-all: '\e003';
+$icon-redo:     '\e004';
+$icon-delete:   '\e005';
 
 @font-face {
   font: {
@@ -32,7 +28,7 @@ $color-yellow: #ffe226;
 }
 
 body {
-  padding: 1.2em 1em;
+  padding: 0.6em 1em;
 }
 
 canvas {
@@ -42,7 +38,7 @@ canvas {
   clear: both;
   cursor: crosshair;
   float: left;
-  margin-bottom: 1.2em;
+  margin: 1.2em 0;
 }
 
 footer {
@@ -54,7 +50,7 @@ h1 {
   color: $color-red;
   font-size: 3em;
   line-height: 1.6em;
-  margin: 0 0 0.4em; // 12px
+  margin: 0;
 
   > a {
     color: inherit;
@@ -63,7 +59,7 @@ h1 {
 }
 
 h2 {
-  margin: 0 0 0.375em; // 0 0 6px
+  margin: 0;
   font-size: 1.6em;
   line-height: 1.5em;
 }
@@ -75,32 +71,41 @@ html {
 }
 
 ol {
+//  background: $color-red;
   list-style: none;
   margin: 0;
   overflow: hidden;
   padding: 0;
 
   > li {
-    $diameter: 2em; // 48px
-
-    background: darken($color-white, 6%);
-    border: {
-      color: darken($color-white, 18%);
-      width: 0.25em; // 6px
-      radius: 50%;
-      style: solid;
-    }
     cursor: pointer;
     float: left;
-    font-size: 2.4em;
-    height: $diameter;
-    line-height: 2em; // 48px
-    margin-right: 0.2em; // 5px
+    font-size: 1.6em;
+    line-height: 1.5em; // 24px
+    margin: 0 0.3125em 0.375em 0; // 0 5px 6px 0
     text-align: center;
-    width: $diameter;
 
-    &:hover {
-      border-color: lighten($color-blue, 6%);
+    &::before {
+      $diameter: 50px; // 48px
+
+      background: darken($color-white, 6%);
+      border: {
+        color: darken($color-white, 18%);
+        width: 5px; // 6px
+        radius: 50%;
+        style: solid;
+      }
+      content: '';
+      display: block;
+      font: {
+        size: 1.5625em; // 25px
+        family: 'Canvas Icons';
+      }
+      text-shadow: 0 0.1em $color-white;
+      height: $diameter;
+      line-height: $diameter;
+      text-align: center;
+      width: $diameter;
     }
 
     &:last-of-type {
@@ -108,8 +113,12 @@ ol {
     }
 
     &.active {
-      border-color: darken($color-black, 6%);
       cursor: default;
+      font-weight: bold;
+
+      &::before {
+        border-color: darken($color-black, 6%);
+      }
     }
   }
 }
@@ -121,18 +130,103 @@ p {
 
 section {
   float: left;
-  margin: 0 2em 1.2em 0;
+  margin-right: 2em;
 }
 
-#brush,
-#pencil,
-#redo,
-#undo,
-#undo-all {
-  @include enable-ligatures();
+#brush {
+  &::before {
+    content: $icon-brush;
+  }
+}
 
-  font-family: 'Canvas Icons';
-  text-shadow: 0 0.0625em $color-white;
+#color-black {
+  &::before {
+    background: $color-black;
+  }
+}
+
+#color-gray {
+  &::before {
+    background: $color-gray;
+  }
+}
+
+#color-white {
+  &::before {
+    background: $color-white;
+  }
+}
+
+#color-red {
+  &::before {
+    background: $color-red;
+  }
+}
+
+#color-yellow {
+  &::before {
+    background: $color-yellow;
+  }
+}
+
+#color-green {
+  &::before {
+    background: $color-green;
+  }
+}
+
+#color-blue {
+  &::before {
+    background: $color-blue;
+  }
+}
+
+#color-violet {
+  &::before {
+    background: $color-violet;
+  }
+}
+
+#pencil {
+  &::before {
+    content: $icon-pencil;
+  }
+}
+
+#redo {
+  &::before {
+    content: $icon-redo;
+  }
+}
+
+#trash {
+  color: darken($color-white, 24%);
+  margin-left: 15px;
+
+  &::before {
+    content: $icon-delete;
+  }
+
+  &.enabled {
+    color: $color-red;
+
+    &::before {
+      border-color: $color-red;
+      color: $color-red;
+    }
+  }
+}
+
+#undo {
+  &::before {
+    content: $icon-undo;
+  }
+}
+
+#undo-all {
+  &::before {
+    content: $icon-undo-all;
+  }
 }
 
 #redo,
@@ -141,27 +235,14 @@ section {
   color: darken($color-white, 24%);
 
   &:hover {
-    border-color: darken($color-white, 18%);
     cursor: default;
   };
 
-  &.available {
+  &.enabled {
     color: $color-black;
 
     &:hover {
-      border-color: lighten($color-blue, 6%);
       cursor: pointer;
     };
-  }
-
-  > span {
-    font-size: 0.5em; // 12px
-    line-height: 2em; // 18px
-  }
-}
-
-#colors {
-  > li {
-    text-indent: -999em;
   }
 }

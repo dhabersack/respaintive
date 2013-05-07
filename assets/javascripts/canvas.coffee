@@ -49,18 +49,19 @@ class Move
     context.strokeStyle = @strokeStyle
     context.lineWidth = @lineWidth
     context.moveTo @startingPoint.x, @startingPoint.y
-    drawLineTo point for point in @points
+    context.lineTo(point.x, point.y) for point in @points
+    context.stroke()
     context.closePath()
 
 # Elements on the page.
+body      = document.querySelector 'body'
 canvas    = document.querySelector 'canvas'
 colors    = document.querySelectorAll '#colors > li'
 redo      = document.getElementById 'redo'
-redoCount = document.querySelector '#redo > span'
 tools     = document.querySelectorAll '#tools > li'
+trash     = document.getElementById 'trash'
 undo      = document.getElementById 'undo'
 undoAll   = document.getElementById 'undo-all'
-undoCount = document.querySelector '#undo > span'
 
 # default configuration of drawing context
 defaultStrokeStyle = '#3e3e3e'
@@ -83,20 +84,16 @@ undoHistory = new MoveHistory()
 # Extract coordinates from events.
 getEventX = (event) ->
   x = if event.offsetX then event.offsetX else event.layerX - canvas.offsetLeft
-  if event.touches then event.touches[0].clientX - canvas.offsetLeft else x
+  if event.touches then event.touches[0].screenX - canvas.offsetLeft else x
 
 getEventY = (event) ->
   y = if event.offsetY then event.offsetY else event.layerY - canvas.offsetTop
-  if event.touches then event.touches[0].clientY - canvas.offsetTop else y
+  if event.touches then event.touches[0].screenY - canvas.offsetTop else y
 
 
 ####################
 # DRAWING          #
 ####################
-
-drawLineTo = (point) ->
-  context.lineTo(point.x, point.y)
-  context.stroke()
 
 startDrawing = (event) ->
   context.beginPath()
@@ -114,7 +111,9 @@ draw = (event) ->
     x = getEventX(event)
     y = getEventY(event)
 
-    drawLineTo(new Point(x, y))
+    context.lineTo(x, y)
+    context.stroke()
+
     currentMove.addPoint(new Point(x, y))
 
   event.preventDefault()
@@ -123,59 +122,56 @@ stopDrawing = (event) ->
   context.closePath()
 
   undoHistory.push currentMove
-  enableUndo()
+  enable undo
+  enable undoAll
+  enable trash
 
   redoHistory.clear()
-  disableRedo()
-
-  updateCounts()
+  disable redo
 
   isDrawing = false
 
-# colors
-initializeColor = (color) ->
-  color.addEventListener 'click', selectColor, false
-  setElementColor color
+  event.preventDefault()
 
+# colors
 selectColor = (event) ->
   context.strokeStyle = event.target.dataset['color']
   color.className = '' for color in colors
   event.target.className = 'active'
 
-setElementColor = (element) ->
-  element.style.background = element.dataset['color']
+  event.preventDefault()
 
 # tools
-initializeTool = (tool) ->
-  tool.addEventListener 'click', selectTool, false
-
 selectTool = (event) ->
   context.lineWidth = event.target.dataset['linewidth']
   tool.className = '' for tool in tools
   event.target.className = 'active'
+
+  event.preventDefault()
 
 
 ####################
 # UNDO/REDO        #
 ####################
 
-executeRedo = ->
-  move = redoHistory.pop()
-  if move
+executeRedo = (event) ->
+  unless redoHistory.isEmpty()
     contextState.save()
 
+    move = redoHistory.pop()
     move.draw()
     undoHistory.push move
 
-    updateCounts()
-
-    enableUndo()
-    disableRedo() if redoHistory.isEmpty()
+    enable undo
+    enable undoAll
+    disable redo if redoHistory.isEmpty()
 
     contextState.restore()
 
-# undoes the last move by clearing the canvas and redoing all previous moves
-executeUndo = ->
+  event.preventDefault()
+
+# Undoes the last move by clearing the canvas and redoing all previous moves.
+executeUndo = (event) ->
   clearCanvas()
 
   contextState.save()
@@ -183,42 +179,51 @@ executeUndo = ->
   redoHistory.push undoHistory.pop()
   move.draw() for move in undoHistory.moves
 
-  updateCounts()
-
-  disableUndo() if undoHistory.isEmpty()
-  enableRedo()
+  (disable undo; disable undoAll) if undoHistory.isEmpty()
+  enable redo
 
   contextState.restore()
 
-executeUndoAll = ->
-  executeUndo() for move in undoHistory.moves
+  event.preventDefault()
 
-enableRedo = ->
-  redo.className = 'available'
+executeUndoAll = (event) ->
+  executeUndo(event) for move in undoHistory.moves
+  event.preventDefault()
 
-enableUndo = ->
-  undo.className    = 'available'
-  undoAll.className = 'available'
+enable = (element) ->
+  element.className = 'enabled'
 
-disableRedo = ->
-  redo.className = ''
-
-disableUndo = ->
-  undo.className    = ''
-  undoAll.className = ''
-
-updateRedoCount = ->
-  redoCount.innerHTML = redoHistory.size()
-
-updateUndoCount = ->
-  undoCount.innerHTML = undoHistory.size()
-
-updateCounts = ->
-  updateUndoCount()
-  updateRedoCount()
+disable = (element) ->
+  element.className = ''
 
 clearCanvas = ->
   context.clearRect 0, 0, canvas.width, canvas.height;
+
+
+####################
+# TRASH            #
+####################
+
+executeTrash = (event) ->
+  clearCanvas()
+  undoHistory.clear()
+  redoHistory.clear()
+
+  disable undo
+  disable undoAll
+  disable redo
+  disable trash
+
+  event.preventDefault()
+
+
+####################
+# RESPONSIVENESS   #
+####################
+
+adjustCanvasSize = ->
+  canvas.width = "#{ body.clientWidth - 20 }"
+  move.draw() for move in undoHistory.moves
 
 
 ####################
@@ -226,27 +231,43 @@ clearCanvas = ->
 ####################
 
 # initialize context
+# TODO this seems to not do anything
 context.strokeStyle = defaultStrokeStyle
 context.lineCap     = defaultLineCap
 context.lineJoin    = defaultLineJoin
 context.lineWidth   = defaultLineWidth
 
-# initialize menu bars
-initializeColor color for color in colors
-initializeTool  tool  for tool  in tools
+# properly size canvas
+adjustCanvasSize()
 
 
 ####################
 # EVENT HANDLING   #
 ####################
 
-# register event listeners
-canvas.addEventListener  'mousedown',  startDrawing,   false
-canvas.addEventListener  'touchstart', startDrawing,   false
-canvas.addEventListener  'mousemove',  draw,           false
-canvas.addEventListener  'touchmove',  draw,           false
-canvas.addEventListener  'mouseup',    stopDrawing,    false
-canvas.addEventListener  'touchend',   stopDrawing,    false
+# canvas
+canvas.addEventListener 'mousedown',  startDrawing, false
+canvas.addEventListener 'touchstart', startDrawing, false
+canvas.addEventListener 'mousemove',  draw,         false
+canvas.addEventListener 'touchmove',  draw,         false
+canvas.addEventListener 'mouseup',    stopDrawing,  false
+canvas.addEventListener 'touchend',   stopDrawing,  false
+
+# menu bars
+color.addEventListener 'click',      selectColor, false for color in colors
+color.addEventListener 'touchstart', selectColor, false for color in colors
+tool.addEventListener  'click',      selectTool,  false for tool  in tools
+tool.addEventListener  'touchstart', selectTool,  false for tool  in tools
+
+# actions
 redo.addEventListener    'click',      executeRedo,    false
+redo.addEventListener    'touchstart', executeRedo,    false
+trash.addEventListener   'click',      executeTrash,   false
+trash.addEventListener   'touchstart', executeTrash,   false
 undo.addEventListener    'click',      executeUndo,    false
+undo.addEventListener    'touchstart', executeUndo,    false
 undoAll.addEventListener 'click',      executeUndoAll, false
+undoAll.addEventListener 'touchstart', executeUndoAll, false
+
+# window
+window.addEventListener 'resize', adjustCanvasSize, false
