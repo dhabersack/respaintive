@@ -6,7 +6,7 @@
   src: url("../fonts/Canvas Icons/icons.eot?#iefix") format("embedded-opentype"), url("../fonts/Canvas Icons/icons.woff") format("woff"), url("../fonts/Canvas Icons/icons.ttf") format("truetype"), url("../fonts/Canvas Icons/icons.svg#Canvas-Icons") format("svg"); }
 
 body {
-  padding: 1.2em 1em; }
+  padding: 0.6em 1em; }
 
 canvas {
   background: #fdfdfd;
@@ -15,7 +15,7 @@ canvas {
   clear: both;
   cursor: crosshair;
   float: left;
-  margin-bottom: 1.2em; }
+  margin: 1.2em 0; }
 
 footer {
   clear: both;
@@ -25,13 +25,13 @@ h1 {
   color: #e33d27;
   font-size: 3em;
   line-height: 1.6em;
-  margin: 0 0 0.4em; }
+  margin: 0; }
   h1 > a {
     color: inherit;
     text-decoration: none; }
 
 h2 {
-  margin: 0 0 0.375em;
+  margin: 0;
   font-size: 1.6em;
   line-height: 1.5em; }
 
@@ -46,26 +46,34 @@ ol {
   overflow: hidden;
   padding: 0; }
   ol > li {
-    background: #eeeeee;
-    border-color: #cfcfcf;
-    border-width: 0.25em;
-    border-radius: 50%;
-    border-style: solid;
     cursor: pointer;
     float: left;
-    font-size: 2.4em;
-    height: 2em;
-    line-height: 2em;
-    margin-right: 0.2em;
-    text-align: center;
-    width: 2em; }
-    ol > li:hover {
-      border-color: #5394fc; }
+    font-size: 1.6em;
+    line-height: 1.5em;
+    margin: 0 0.3125em 0.375em 0;
+    text-align: center; }
+    ol > li::before {
+      background: #eeeeee;
+      border-color: #cfcfcf;
+      border-width: 5px;
+      border-radius: 50%;
+      border-style: solid;
+      content: '';
+      display: block;
+      font-size: 1.5625em;
+      font-family: 'Canvas Icons';
+      text-shadow: 0 0.1em #fdfdfd;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      width: 50px; }
     ol > li:last-of-type {
       margin-right: 0; }
     ol > li.active {
-      border-color: #2f2f2f;
-      cursor: default; }
+      cursor: default;
+      font-weight: bold; }
+      ol > li.active::before {
+        border-color: #2f2f2f; }
 
 p {
   font-size: 1.2em;
@@ -73,21 +81,57 @@ p {
 
 section {
   float: left;
-  margin: 0 2em 1.2em 0; }
+  margin-right: 2em; }
 
-#brush,
-#pencil,
-#redo,
-#undo,
-#undo-all {
-  -webkit-font-feature-settings: 'liga', 'dlig';
-  -moz-font-feature-settings: 'liga=1, dlig=1';
-  -moz-font-feature-settings: 'liga', 'dlig';
-  -ms-font-feature-settings: 'liga', 'dlig';
-  -o-font-feature-settings: 'liga', 'dlig';
-  font-feature-settings: 'liga', 'dlig';
-  font-family: 'Canvas Icons';
-  text-shadow: 0 0.0625em #fdfdfd; }
+#brush::before {
+  content: "\e001"; }
+
+#color-black::before {
+  background: #3e3e3e; }
+
+#color-gray::before {
+  background: #bdbdbd; }
+
+#color-white::before {
+  background: #fdfdfd; }
+
+#color-red::before {
+  background: #e33d27; }
+
+#color-yellow::before {
+  background: #ffe226; }
+
+#color-green::before {
+  background: #23db2a; }
+
+#color-blue::before {
+  background: #3581fc; }
+
+#color-violet::before {
+  background: #904fff; }
+
+#pencil::before {
+  content: "\e000"; }
+
+#redo::before {
+  content: "\e004"; }
+
+#trash {
+  color: silver;
+  margin-left: 15px; }
+  #trash::before {
+    content: "\e005"; }
+  #trash.enabled {
+    color: #e33d27; }
+    #trash.enabled::before {
+      border-color: #e33d27;
+      color: #e33d27; }
+
+#undo::before {
+  content: "\e002"; }
+
+#undo-all::before {
+  content: "\e003"; }
 
 #redo,
 #undo,
@@ -96,22 +140,12 @@ section {
   #redo:hover,
   #undo:hover,
   #undo-all:hover {
-    border-color: #cfcfcf;
     cursor: default; }
-  #redo.available,
-  #undo.available,
-  #undo-all.available {
+  #redo.enabled,
+  #undo.enabled,
+  #undo-all.enabled {
     color: #3e3e3e; }
-    #redo.available:hover,
-    #undo.available:hover,
-    #undo-all.available:hover {
-      border-color: #5394fc;
+    #redo.enabled:hover,
+    #undo.enabled:hover,
+    #undo-all.enabled:hover {
       cursor: pointer; }
-  #redo > span,
-  #undo > span,
-  #undo-all > span {
-    font-size: 0.5em;
-    line-height: 2em; }
-
-#colors > li {
-  text-indent: -999em; }
