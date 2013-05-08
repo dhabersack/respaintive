@@ -86,11 +86,12 @@ undoHistory = new MoveHistory()
 
 # Extract coordinates from events.
 getEventX = (event) ->
-  x = if event.offsetX then event.offsetX else event.layerX - canvas.offsetLeft
+  console.log event
+  x = if event.offsetX then event.offsetX else event.pageX - canvas.offsetLeft
   if event.touches then event.touches[0].screenX - canvas.offsetLeft else x
 
 getEventY = (event) ->
-  y = if event.offsetY then event.offsetY else event.layerY - canvas.offsetTop
+  y = if event.offsetY then event.offsetY else event.pageY - canvas.offsetTop
   if event.touches then event.touches[0].screenY - canvas.offsetTop else y
 
 
