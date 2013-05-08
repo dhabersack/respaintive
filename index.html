@@ -20,41 +20,53 @@
   <body>
     <h1>Canvas</h1>
 
-    <section>
-      <h2>Colors</h2>
+    <p id="settings-open">
+      <a href="#">
+        Settings
+      </a>
+    </p>
 
-      <ol id="colors">
-        <li data-color="#3e3e3e" id="color-black" class="active" title="Black">Black</li>
-        <li data-color="#bdbdbd" id="color-gray" title="Gray">Gray</li>
-        <li data-color="#fdfdfd" id="color-white" title="White">White</li>
-        <li data-color="#e33d27" id="color-red" title="Red">Red</li>
-        <li data-color="#ffe226" id="color-yellow" title="Yellow">Yellow</li>
-        <li data-color="#23db2a" id="color-green" title="Green">Green</li>
-        <li data-color="#3581fc" id="color-blue" title="Blue">Blue</li>
-        <li data-color="#904fff" id="color-violet" title="Violet">Violet</li>
-      </ol>
-    </section>
+    <div id="settings">
+      <p id="settings-close">
+        <a href="#">Close</a>
+      </p>
 
-    <section>
-      <h2>Tools</h2>
+      <section>
+        <h2>Colors</h2>
 
-      <ol id="tools">
-        <li data-linewidth="1" id="pencil" class="active" title="Pencil">Pencil</li>
-        <li data-linewidth="8" id="brush" title="Brush">Brush</li>
-      </ol>
-    </section>
+        <ol id="colors">
+          <li data-color="#3e3e3e" id="color-black" class="active" title="Black">Black</li>
+          <li data-color="#bdbdbd" id="color-gray" title="Gray">Gray</li>
+          <li data-color="#fdfdfd" id="color-white" title="White">White</li>
+          <li data-color="#e33d27" id="color-red" title="Red">Red</li>
+          <li data-color="#ffe226" id="color-yellow" title="Yellow">Yellow</li>
+          <li data-color="#23db2a" id="color-green" title="Green">Green</li>
+          <li data-color="#3581fc" id="color-blue" title="Blue">Blue</li>
+          <li data-color="#904fff" id="color-violet" title="Violet">Violet</li>
+        </ol>
+      </section>
 
-    <section>
-      <h2>Actions</h2>
+      <section>
+        <h2>Tools</h2>
 
-      <ol id="actions">
-        <li id="undo" title="Undo">Undo</li>
-        <li id="undo-all" title="Undo all">Undo all</li>
-        <li id="redo" title="Redo">Redo</li>
+        <ol id="tools">
+          <li data-linewidth="1" id="pencil" class="active" title="Pencil">Pencil</li>
+          <li data-linewidth="8" id="brush" title="Brush">Brush</li>
+        </ol>
+      </section>
 
-        <li id="trash" title="Trash">Trash</li>
-      </ol>
-    </section>
+      <section>
+        <h2>Actions</h2>
+
+        <ol id="actions">
+          <li id="undo" title="Undo">Undo</li>
+          <li id="undo-all" title="Undo all">Undo all</li>
+          <li id="redo" title="Redo">Redo</li>
+
+          <li id="trash" title="Trash">Trash</li>
+        </ol>
+      </section>
+    </div>
 
     <canvas height="600" width="880">Canvas not available.</canvas>
 
