@@ -135,7 +135,8 @@
   getEventX = function(event) {
     var x;
 
-    x = event.offsetX ? event.offsetX : event.layerX - canvas.offsetLeft;
+    console.log(event);
+    x = event.offsetX ? event.offsetX : event.pageX - canvas.offsetLeft;
     if (event.touches) {
       return event.touches[0].screenX - canvas.offsetLeft;
     } else {
@@ -146,7 +147,7 @@
   getEventY = function(event) {
     var y;
 
-    y = event.offsetY ? event.offsetY : event.layerY - canvas.offsetTop;
+    y = event.offsetY ? event.offsetY : event.pageY - canvas.offsetTop;
     if (event.touches) {
       return event.touches[0].screenY - canvas.offsetTop;
     } else {
