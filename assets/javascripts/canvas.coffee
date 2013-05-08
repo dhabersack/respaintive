@@ -54,14 +54,17 @@ class Move
     context.closePath()
 
 # Elements on the page.
-body      = document.querySelector 'body'
-canvas    = document.querySelector 'canvas'
-colors    = document.querySelectorAll '#colors > li'
-redo      = document.getElementById 'redo'
-tools     = document.querySelectorAll '#tools > li'
-trash     = document.getElementById 'trash'
-undo      = document.getElementById 'undo'
-undoAll   = document.getElementById 'undo-all'
+body          = document.querySelector 'body'
+canvas        = document.querySelector 'canvas'
+closeSettings = document.getElementById 'settings-close'
+colors        = document.querySelectorAll '#colors > li'
+openSettings  = document.getElementById 'settings-open'
+redo          = document.getElementById 'redo'
+settings      = document.getElementById 'settings'
+tools         = document.querySelectorAll '#tools > li'
+trash         = document.getElementById 'trash'
+undo          = document.getElementById 'undo'
+undoAll       = document.getElementById 'undo-all'
 
 # default configuration of drawing context
 defaultStrokeStyle = '#3e3e3e'
@@ -227,6 +230,23 @@ adjustCanvasSize = ->
 
 
 ####################
+# OFF-CANVAS MENU  #
+####################
+
+hideSettings = (event) ->
+  body.style.right = '0px'
+  settings.style.display = 'none'
+
+  event.preventDefault()
+
+showSettings = (event) ->
+  body.style.right = '280px'
+  settings.style.display = 'block'
+
+  event.preventDefault()
+
+
+####################
 # INITIALIZATION   #
 ####################
 
@@ -268,6 +288,12 @@ undo.addEventListener    'click',      executeUndo,    false
 undo.addEventListener    'touchstart', executeUndo,    false
 undoAll.addEventListener 'click',      executeUndoAll, false
 undoAll.addEventListener 'touchstart', executeUndoAll, false
+
+# off-canvas settings menu
+closeSettings.addEventListener 'click',      hideSettings, false
+closeSettings.addEventListener 'touchstart', hideSettings, false
+openSettings.addEventListener  'click',      showSettings, false
+openSettings.addEventListener  'touchstart', showSettings, false
 
 # window
 window.addEventListener 'resize', adjustCanvasSize, false

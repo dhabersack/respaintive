@@ -13,6 +13,8 @@ $icon-undo:     '\e002';
 $icon-undo-all: '\e003';
 $icon-redo:     '\e004';
 $icon-delete:   '\e005';
+$icon-gear:     '\e006';
+$icon-close:    '\e007';
 
 @font-face {
   font: {
@@ -20,15 +22,16 @@ $icon-delete:   '\e005';
     style: normal;
     weight: normal;
   }
-  src: url('../fonts/Canvas Icons/icons.eot');
-  src: url('../fonts/Canvas Icons/icons.eot?#iefix') format('embedded-opentype'),
-       url('../fonts/Canvas Icons/icons.woff') format('woff'),
-       url('../fonts/Canvas Icons/icons.ttf') format('truetype'),
-       url('../fonts/Canvas Icons/icons.svg#Canvas-Icons') format('svg');
+  src: url('../fonts/Canvas Icons/Canvas-Icons.eot');
+  src: url('../fonts/Canvas Icons/Canvas-Icons.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/Canvas Icons/Canvas-Icons.woff') format('woff'),
+       url('../fonts/Canvas Icons/Canvas-Icons.ttf') format('truetype'),
+       url('../fonts/Canvas Icons/Canvas-Icons.svg#Canvas-Icons') format('svg');
 }
 
 body {
-  padding: 0.6em 1em;
+  padding: 1.2em 1em;
+  position: relative;
 }
 
 canvas {
@@ -38,7 +41,7 @@ canvas {
   clear: both;
   cursor: crosshair;
   float: left;
-  margin: 1.2em 0;
+  margin: 0 0 1.2em;
 }
 
 footer {
@@ -50,7 +53,7 @@ h1 {
   color: $color-red;
   font-size: 3em;
   line-height: 1.6em;
-  margin: 0;
+  margin: 0 0 0.4em; // 0 0 12px
 
   > a {
     color: inherit;
@@ -68,10 +71,12 @@ html {
   background: lighten($color-white, 6%);
   color: $color-black;
   font-size: 62.5%;
+  height: 100%;
+  position: absolute;
+  width: 100%;
 }
 
 ol {
-//  background: $color-red;
   list-style: none;
   margin: 0;
   overflow: hidden;
@@ -82,16 +87,16 @@ ol {
     float: left;
     font-size: 1.6em;
     line-height: 1.5em; // 24px
-    margin: 0 0.3125em 0.375em 0; // 0 5px 6px 0
+    margin: 0 0.3125em 0.75em 0; // 0 5px 12px 0
     text-align: center;
 
     &::before {
-      $diameter: 50px; // 48px
+      $diameter: 2em; // 48px
 
       background: darken($color-white, 6%);
       border: {
         color: darken($color-white, 18%);
-        width: 5px; // 6px
+        width: 0.2em; // 5px
         radius: 50%;
         style: solid;
       }
@@ -101,14 +106,16 @@ ol {
         size: 1.5625em; // 25px
         family: 'Canvas Icons';
       }
-      text-shadow: 0 0.1em $color-white;
+      text-shadow: 0 0.1em transparentize($color-white, 0.6);
       height: $diameter;
       line-height: $diameter;
+      margin-bottom: 0.24em; // 6px
       text-align: center;
       width: $diameter;
     }
 
-    &:last-of-type {
+    &:last-of-type,
+    &:nth-of-type(4n) {
       margin-right: 0;
     }
 
@@ -130,7 +137,7 @@ p {
 
 section {
   float: left;
-  margin-right: 2em;
+  margin-bottom: 1.2em;
 }
 
 #brush {
@@ -199,9 +206,78 @@ section {
   }
 }
 
+#settings {
+  background: lighten($color-gray, 18%);
+  display: none;
+  overflow: hidden;
+  padding: 1.2em 1em;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: 26em;
+}
+
+#settings-close,
+#settings-open {
+  cursor: pointer;
+  font-size: 1em;
+  margin: 0 0 1.2em;
+  overflow: hidden;
+  padding: 0.6em 1em;
+  text-align: center;
+
+  > a {
+    color: $color-black;
+    display: inline-block;
+    font-size: 1.6em;
+    line-height: 1.5em;
+    text-decoration: none;
+
+    &::before {
+      display: block;
+      float: left;
+      font: {
+        family: 'Canvas Icons';
+        size: 1.25em; // 20px
+      }
+      margin-right: 0.25em; // 5px
+      text-shadow: 0 0.05em 0 transparentize($color-white, 0.6); // 0 1px 0
+    }
+  }
+}
+
+#settings-close {
+  background: darken($color-gray, 12%);
+  border-radius: 0.4em;
+  box-shadow:  0 0.1em 0.1em transparentize($color-black, 0.4);
+  text-align: center;
+
+  > a {
+    &::before {
+      content: $icon-close;
+    }
+  }
+}
+
+#settings-open {
+  background: $color-yellow;
+  border-radius: 0.4em 0 0 0.4em;
+  position: absolute;
+  right: 0;
+  top: 1.2em; // 12px
+
+  > a {
+    float: left;
+
+    &::before {
+      content: $icon-gear;
+    }
+  }
+}
+
 #trash {
   color: darken($color-white, 24%);
-  margin-left: 15px;
 
   &::before {
     content: $icon-delete;
