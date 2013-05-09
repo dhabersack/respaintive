@@ -11,12 +11,14 @@ module.exports = (grunt) ->
       }
     },
 
-    compass: {
+    sass: {
+      options: {
+        bundleExec: true,
+        style: 'compressed'
+      },
       build: {
-        options: {
-          sassDir: 'assets/stylesheets',
-          cssDir: 'assets/stylesheets',
-          outputStyle: 'compressed'
+        files: {
+          'assets/stylesheets/style.css': 'assets/stylesheets/style.scss'
         }
       }
     },
@@ -40,14 +42,14 @@ module.exports = (grunt) ->
       },
       stylesheets: {
         files: ['assets/stylesheets/**/*.scss'],
-        tasks: ['compass']
+        tasks: ['sass']
       }
     }
   })
 
   # Load plugins for 'coffee'-, 'compass'- and 'uglify'-tasks.
   grunt.loadNpmTasks 'grunt-contrib-coffee'
-  grunt.loadNpmTasks 'grunt-contrib-compass'
+  grunt.loadNpmTasks 'grunt-contrib-sass'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
