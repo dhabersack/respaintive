@@ -41,7 +41,7 @@ module.exports = (grunt) ->
       options:
         banner: '/*! <%= pkg.name %> <%= pkg.version %> */\n'
         report: 'min'
-      build:
+      run:
         files:
           'assets/javascript/<%= pkg.name %>-<%= pkg.version %>.min.js': 'assets/javascript/<%= pkg.name %>-<%= pkg.version %>.js'
 
@@ -62,5 +62,5 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
-  grunt.registerTask 'default', ['sass', 'coffee', 'jshint', 'uglify', 'watch']
-  grunt.registerTask 'build', ['sass', 'coffee', 'jshint', 'uglify', 'clean:build', 'copy:build']
+  grunt.registerTask 'default', ['sass:compile', 'coffee:compile', 'jshint:check', 'uglify:run', 'watch']
+  grunt.registerTask 'build', ['sass:compile', 'coffee:compile', 'jshint:check', 'uglify:run', 'clean:build', 'copy:build']
