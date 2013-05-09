@@ -53,3 +53,4 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
   grunt.registerTask 'default', ['sass', 'coffee', 'jshint', 'uglify', 'watch']
+  grunt.registerTask 'build', ['sass', 'coffee', 'jshint', 'uglify']
