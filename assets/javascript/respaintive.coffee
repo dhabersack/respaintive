@@ -1,3 +1,5 @@
+'use strict'
+
 ####################
 # CLASSES          #
 ####################
@@ -7,10 +9,12 @@ class ContextState
   restore: ->
     context.lineWidth = @lineWidth
     context.strokeStyle = @strokeStyle
+    true
 
   save: ->
     @lineWidth = context.lineWidth
     @strokeStyle = context.strokeStyle
+    true
 
 # Manages a list of moves.
 class MoveHistory
@@ -19,6 +23,7 @@ class MoveHistory
 
   clear: ->
     @moves.length = 0
+    true
 
   isEmpty: ->
     @moves.length == 0
@@ -86,7 +91,6 @@ undoHistory = new MoveHistory()
 
 # Extract coordinates from events.
 getEventX = (event) ->
-  console.log event
   x = if event.offsetX then event.offsetX else event.pageX - canvas.offsetLeft
   if event.touches then event.touches[0].screenX - canvas.offsetLeft else x
 
@@ -109,6 +113,8 @@ startDrawing = (event) ->
   context.moveTo(x, y)
 
   isDrawing = true
+
+  event.preventDefault()
 
 draw = (event) ->
   if isDrawing
@@ -139,7 +145,7 @@ stopDrawing = (event) ->
 
 # colors
 selectColor = (event) ->
-  context.strokeStyle = event.target.dataset['color']
+  context.strokeStyle = event.target.dataset.color
   color.className = '' for color in colors
   event.target.className = 'active'
 
@@ -147,7 +153,7 @@ selectColor = (event) ->
 
 # tools
 selectTool = (event) ->
-  context.lineWidth = event.target.dataset['linewidth']
+  context.lineWidth = event.target.dataset.linewidth
   tool.className = '' for tool in tools
   event.target.className = 'active'
 
@@ -196,9 +202,11 @@ executeUndoAll = (event) ->
 
 enable = (element) ->
   element.className = 'enabled'
+  true
 
 disable = (element) ->
   element.className = ''
+  true
 
 clearCanvas = ->
   context.clearRect 0, 0, canvas.width, canvas.height;
