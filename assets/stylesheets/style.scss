@@ -279,6 +279,7 @@ section {
 
 #trash {
   color: darken($color-white, 24%);
+  cursor: default;
 
   &::before {
     content: $icon-delete;
@@ -286,6 +287,7 @@ section {
 
   &.enabled {
     color: $color-red;
+    cursor: pointer;
 
     &::before {
       border-color: $color-red;
@@ -310,16 +312,10 @@ section {
 #undo,
 #undo-all {
   color: darken($color-white, 24%);
-
-  &:hover {
-    cursor: default;
-  };
+  cursor: default;
 
   &.enabled {
     color: $color-black;
-
-    &:hover {
-      cursor: pointer;
-    };
+    cursor: pointer;
   }
 }
