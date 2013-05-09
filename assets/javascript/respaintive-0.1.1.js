@@ -146,7 +146,7 @@
     if (event.touches) {
       return event.touches[0].screenX - canvas.offsetLeft + bodyOffset;
     } else {
-      return x;
+      return x + bodyOffset;
     }
   };
 
