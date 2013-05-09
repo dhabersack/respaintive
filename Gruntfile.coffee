@@ -2,6 +2,9 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
 
+    clean:
+      build: ['build']
+
     coffee:
       compile:
         files:
@@ -51,6 +54,7 @@ module.exports = (grunt) ->
         tasks: 'sass'
 
   # Load plugins
+  grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
@@ -59,4 +63,4 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
   grunt.registerTask 'default', ['sass', 'coffee', 'jshint', 'uglify', 'watch']
-  grunt.registerTask 'build', ['sass', 'coffee', 'jshint', 'uglify', 'copy']
+  grunt.registerTask 'build', ['sass', 'coffee', 'jshint', 'uglify', 'clean:build', 'copy:build']
