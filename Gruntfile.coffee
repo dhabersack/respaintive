@@ -24,9 +24,13 @@ module.exports = (grunt) ->
         unused: true
         strict: true
         trailing: true
-      check:
+      development:
+        options:
+          devel: true
         files:
-          # do not check minified files
+          src: ['assets/javascript/**/*.js', '!assets/javascript/**/*.min.js']
+      production:
+        files:
           src: ['assets/javascript/**/*.js', '!assets/javascript/**/*.min.js']
 
     sass:
@@ -48,7 +52,7 @@ module.exports = (grunt) ->
     watch:
       script:
         files: 'assets/javascript/**/*.coffee'
-        tasks: ['coffee', 'jshint', 'uglify']
+        tasks: ['coffee', 'jshint:development', 'uglify']
       stylesheets:
         files: 'assets/stylesheets/**/*.scss'
         tasks: 'sass'
@@ -62,5 +66,5 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
-  grunt.registerTask 'default', ['sass:compile', 'coffee:compile', 'jshint:check', 'uglify:run', 'watch']
-  grunt.registerTask 'build', ['sass:compile', 'coffee:compile', 'jshint:check', 'uglify:run', 'clean:build', 'copy:build']
+  grunt.registerTask 'default', ['sass', 'coffee', 'jshint:development', 'uglify', 'watch']
+  grunt.registerTask 'build', ['sass', 'coffee', 'jshint:production', 'uglify', 'clean:build', 'copy:build']
