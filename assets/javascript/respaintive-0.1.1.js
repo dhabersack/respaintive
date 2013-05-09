@@ -142,11 +142,11 @@
 
     right = body.style.right;
     bodyOffset = regexpPixelValue.test(right) ? +(regexpPixelValue.exec(right))[1] : 0;
-    x = event.offsetX ? event.offsetX : event.pageX - canvas.offsetLeft;
+    x = event.offsetX ? event.offsetX : event.pageX - canvas.offsetLeft + bodyOffset;
     if (event.touches) {
       return event.touches[0].screenX - canvas.offsetLeft + bodyOffset;
     } else {
-      return x + bodyOffset;
+      return x;
     }
   };
 
