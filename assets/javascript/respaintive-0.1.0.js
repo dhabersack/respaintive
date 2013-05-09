@@ -1,4 +1,5 @@
 (function() {
+  'use strict';
   var ContextState, Move, MoveHistory, Point, adjustCanvasSize, body, canvas, clearCanvas, closeSettings, color, colors, context, contextState, currentMove, defaultLineCap, defaultLineJoin, defaultLineWidth, defaultStrokeStyle, disable, draw, enable, executeRedo, executeTrash, executeUndo, executeUndoAll, getEventX, getEventY, hideSettings, isDrawing, openSettings, redo, redoHistory, selectColor, selectTool, settings, showSettings, startDrawing, stopDrawing, tool, tools, trash, undo, undoAll, undoHistory, _i, _j, _k, _l, _len, _len1, _len2, _len3;
 
   ContextState = (function() {
@@ -6,12 +7,14 @@
 
     ContextState.prototype.restore = function() {
       context.lineWidth = this.lineWidth;
-      return context.strokeStyle = this.strokeStyle;
+      context.strokeStyle = this.strokeStyle;
+      return true;
     };
 
     ContextState.prototype.save = function() {
       this.lineWidth = context.lineWidth;
-      return this.strokeStyle = context.strokeStyle;
+      this.strokeStyle = context.strokeStyle;
+      return true;
     };
 
     return ContextState;
@@ -24,7 +27,8 @@
     }
 
     MoveHistory.prototype.clear = function() {
-      return this.moves.length = 0;
+      this.moves.length = 0;
+      return true;
     };
 
     MoveHistory.prototype.isEmpty = function() {
@@ -134,7 +138,6 @@
   getEventX = function(event) {
     var x;
 
-    console.log(event);
     x = event.offsetX ? event.offsetX : event.pageX - canvas.offsetLeft;
     if (event.touches) {
       return event.touches[0].screenX - canvas.offsetLeft;
@@ -162,7 +165,8 @@
     y = getEventY(event);
     currentMove = new Move(new Point(x, y), context.lineWidth, context.strokeStyle);
     context.moveTo(x, y);
-    return isDrawing = true;
+    isDrawing = true;
+    return event.preventDefault();
   };
 
   draw = function(event) {
@@ -193,7 +197,7 @@
   selectColor = function(event) {
     var color, _i, _len;
 
-    context.strokeStyle = event.target.dataset['color'];
+    context.strokeStyle = event.target.dataset.color;
     for (_i = 0, _len = colors.length; _i < _len; _i++) {
       color = colors[_i];
       color.className = '';
@@ -205,7 +209,7 @@
   selectTool = function(event) {
     var tool, _i, _len;
 
-    context.lineWidth = event.target.dataset['linewidth'];
+    context.lineWidth = event.target.dataset.linewidth;
     for (_i = 0, _len = tools.length; _i < _len; _i++) {
       tool = tools[_i];
       tool.className = '';
@@ -264,11 +268,13 @@
   };
 
   enable = function(element) {
-    return element.className = 'enabled';
+    element.className = 'enabled';
+    return true;
   };
 
   disable = function(element) {
-    return element.className = '';
+    element.className = '';
+    return true;
   };
 
   clearCanvas = function() {

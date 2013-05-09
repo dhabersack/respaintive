@@ -7,11 +7,25 @@ module.exports = (grunt) ->
         files:
           'assets/javascript/<%= pkg.name %>-<%= pkg.version %>.js': 'assets/javascript/<%= pkg.name %>.coffee'
 
+    jshint:
+      options:
+        browser: true
+        curly: true
+        eqeqeq: true
+        undef: true
+        unused: true
+        strict: true
+        trailing: true
+      check:
+        files:
+          # do not check minified files
+          src: ['assets/javascript/**/*.js', '!assets/javascript/**/*.min.js']
+
     sass:
       options:
         bundleExec: true
         style: 'compressed'
-      build:
+      compile:
         files:
           'assets/stylesheets/style.css': 'assets/stylesheets/style.scss'
 
@@ -26,16 +40,16 @@ module.exports = (grunt) ->
     watch:
       script:
         files: 'assets/javascript/**/*.coffee'
-        tasks: ['coffee', 'uglify']
+        tasks: ['coffee', 'jshint', 'uglify']
       stylesheets:
         files: 'assets/stylesheets/**/*.scss'
         tasks: 'sass'
 
   # Load plugins
   grunt.loadNpmTasks 'grunt-contrib-coffee'
+  grunt.loadNpmTasks 'grunt-contrib-jshint'
   grunt.loadNpmTasks 'grunt-contrib-sass'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
-  # define default task(s)
-  grunt.registerTask 'default', ['sass', 'coffee', 'uglify', 'watch']
+  grunt.registerTask 'default', ['sass', 'coffee', 'jshint', 'uglify', 'watch']
