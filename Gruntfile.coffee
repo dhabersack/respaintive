@@ -6,7 +6,7 @@ module.exports = (grunt) ->
     coffee: {
       compile: {
         files: {
-          'assets/javascript/<%= pkg.name %>.js': 'assets/javascript/<%= pkg.name %>.coffee'
+          'assets/javascript/<%= pkg.name %>-<%= pkg.version %>.js': 'assets/javascript/<%= pkg.name %>.coffee'
         }
       }
     },
@@ -28,7 +28,7 @@ module.exports = (grunt) ->
       },
       build: {
         files: {
-          'assets/javascript/<%= pkg.name %>.min.js': ['assets/javascript/<%= pkg.name %>.js']
+          'assets/javascript/<%= pkg.name %>-<%= pkg.version %>.min.js': ['assets/javascript/<%= pkg.name %>-<%= pkg.version %>.js']
         }
       }
     }

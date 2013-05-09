@@ -1,3 +1,5 @@
+@import 'normalize.scss';
+
 $color-black:  #3e3e3e;
 $color-blue:   #3581fc;
 $color-gray:   #bdbdbd;
@@ -18,15 +20,15 @@ $icon-close:    '\e007';
 
 @font-face {
   font: {
-    family: 'Canvas Icons';
+    family: 'Respaintive';
     style: normal;
     weight: normal;
   }
-  src: url('../fonts/Canvas Icons/Canvas-Icons.eot');
-  src: url('../fonts/Canvas Icons/Canvas-Icons.eot?#iefix') format('embedded-opentype'),
-       url('../fonts/Canvas Icons/Canvas-Icons.woff') format('woff'),
-       url('../fonts/Canvas Icons/Canvas-Icons.ttf') format('truetype'),
-       url('../fonts/Canvas Icons/Canvas-Icons.svg#Canvas-Icons') format('svg');
+  src: url('../fonts/Respaintive/Respaintive.eot');
+  src: url('../fonts/Respaintive/Respaintive.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/Respaintive/Respaintive.woff') format('woff'),
+       url('../fonts/Respaintive/Respaintive.ttf') format('truetype'),
+       url('../fonts/Respaintive/Respaintive.svg#Respaintive') format('svg');
 }
 
 body {
@@ -46,7 +48,7 @@ canvas {
 
 footer {
   clear: both;
-  color: $color-gray;
+  color: darken($color-gray, 12%);
 }
 
 h1 {
@@ -104,7 +106,7 @@ ol {
       display: block;
       font: {
         size: 1.5625em; // 25px
-        family: 'Canvas Icons';
+        family: 'Respaintive';
       }
       text-shadow: 0 0.1em transparentize($color-white, 0.6);
       height: $diameter;
@@ -239,7 +241,7 @@ section {
       display: block;
       float: left;
       font: {
-        family: 'Canvas Icons';
+        family: 'Respaintive';
         size: 1.25em; // 20px
       }
       margin-right: 0.25em; // 5px
