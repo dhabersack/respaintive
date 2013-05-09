@@ -7,6 +7,11 @@ module.exports = (grunt) ->
         files:
           'assets/javascript/<%= pkg.name %>-<%= pkg.version %>.js': 'assets/javascript/<%= pkg.name %>.coffee'
 
+    copy:
+      build:
+        files:
+          'build/': ['index.html', 'assets/fonts/**', 'assets/javascript/**/*.min.js', 'assets/stylesheets/*.css']
+
     jshint:
       options:
         browser: true
@@ -47,10 +52,11 @@ module.exports = (grunt) ->
 
   # Load plugins
   grunt.loadNpmTasks 'grunt-contrib-coffee'
+  grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
   grunt.loadNpmTasks 'grunt-contrib-sass'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
   grunt.registerTask 'default', ['sass', 'coffee', 'jshint', 'uglify', 'watch']
-  grunt.registerTask 'build', ['sass', 'coffee', 'jshint', 'uglify']
+  grunt.registerTask 'build', ['sass', 'coffee', 'jshint', 'uglify', 'copy']
