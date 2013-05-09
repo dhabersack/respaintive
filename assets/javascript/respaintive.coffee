@@ -97,8 +97,8 @@ getEventX = (event) ->
   right = body.style.right
   bodyOffset = if regexpPixelValue.test right then +(regexpPixelValue.exec right)[1] else 0
 
-  x = if event.offsetX then event.offsetX else event.pageX - canvas.offsetLeft
-  if event.touches then event.touches[0].screenX - canvas.offsetLeft + bodyOffset else x + bodyOffset
+  x = if event.offsetX then event.offsetX else event.pageX - canvas.offsetLeft  + bodyOffset
+  if event.touches then event.touches[0].screenX - canvas.offsetLeft + bodyOffset else x
 
 getEventY = (event) ->
   y = if event.offsetY then event.offsetY else event.pageY - canvas.offsetTop
