@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  var ContextState, Move, MoveHistory, Point, adjustCanvasSize, body, canvas, clearCanvas, closeSettings, color, colors, context, contextState, currentMove, defaultLineCap, defaultLineJoin, defaultLineWidth, defaultStrokeStyle, disable, draw, enable, executeRedo, executeTrash, executeUndo, executeUndoAll, getEventX, getEventY, hideSettings, isDrawing, openSettings, redo, redoHistory, selectColor, selectTool, settings, showSettings, startDrawing, stopDrawing, tool, tools, trash, undo, undoAll, undoHistory, _i, _j, _k, _l, _len, _len1, _len2, _len3;
+  var ContextState, Move, MoveHistory, Point, adjustCanvasSize, body, canvas, clearCanvas, closeSettings, color, colors, context, contextState, currentMove, defaultLineCap, defaultLineJoin, defaultLineWidth, defaultStrokeStyle, disable, draw, enable, executeRedo, executeTrash, executeUndo, executeUndoAll, getEventX, getEventY, hideSettings, isDrawing, openSettings, redo, redoHistory, regexpPixelValue, selectColor, selectTool, settings, showSettings, startDrawing, stopDrawing, tool, tools, trash, undo, undoAll, undoHistory, _i, _j, _k, _l, _len, _len1, _len2, _len3;
 
   ContextState = (function() {
     function ContextState() {}
@@ -115,6 +115,8 @@
 
   undoAll = document.getElementById('undo-all');
 
+  regexpPixelValue = /(\d+)px/;
+
   defaultStrokeStyle = '#3e3e3e';
 
   defaultLineCap = 'round';
@@ -136,11 +138,13 @@
   undoHistory = new MoveHistory();
 
   getEventX = function(event) {
-    var x;
+    var bodyOffset, right, x;
 
+    right = body.style.right;
+    bodyOffset = regexpPixelValue.test(right) ? +(regexpPixelValue.exec(right))[1] : 0;
     x = event.offsetX ? event.offsetX : event.pageX - canvas.offsetLeft;
     if (event.touches) {
-      return event.touches[0].screenX - canvas.offsetLeft;
+      return event.touches[0].screenX - canvas.offsetLeft + bodyOffset;
     } else {
       return x;
     }
