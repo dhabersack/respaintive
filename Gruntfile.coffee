@@ -12,7 +12,7 @@ module.exports = (grunt) ->
     },
 
     compass: {
-      dist: {
+      build: {
         options: {
           sassDir: 'assets/stylesheets',
           cssDir: 'assets/stylesheets',
@@ -31,6 +31,17 @@ module.exports = (grunt) ->
           'assets/javascript/<%= pkg.name %>-<%= pkg.version %>.min.js': ['assets/javascript/<%= pkg.name %>-<%= pkg.version %>.js']
         }
       }
+    },
+
+    watch: {
+      script: {
+        files: ['assets/javascript/**/*.coffee'],
+        tasks: ['coffee', 'uglify']
+      },
+      stylesheets: {
+        files: ['assets/stylesheets/**/*.scss'],
+        tasks: ['compass']
+      }
     }
   })
 
@@ -38,6 +49,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-compass'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
+  grunt.loadNpmTasks 'grunt-contrib-watch'
 
   # Default task(s).
-  grunt.registerTask 'default', ['compass', 'coffee', 'uglify']
+  grunt.registerTask 'default', ['watch']
