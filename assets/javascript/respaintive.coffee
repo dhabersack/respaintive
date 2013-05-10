@@ -71,9 +71,6 @@ trash         = document.getElementById 'trash'
 undo          = document.getElementById 'undo'
 undoAll       = document.getElementById 'undo-all'
 
-# regular expressions
-regexpPixelValue = /(\d+)px/
-
 # default configuration of drawing context
 defaultStrokeStyle = '#3e3e3e'
 defaultLineCap     = 'round'
@@ -94,8 +91,7 @@ undoHistory = new MoveHistory()
 
 # Extract coordinates from events.
 getEventX = (event) ->
-  right = body.style.right
-  bodyOffset = if regexpPixelValue.test right then +(regexpPixelValue.exec right)[1] else 0
+  bodyOffset = if body.className == 'offset' then 280 else 0
 
   x = if event.offsetX then event.offsetX else event.pageX - canvas.offsetLeft  + bodyOffset
   if event.touches then event.touches[0].screenX - canvas.offsetLeft + bodyOffset else x
