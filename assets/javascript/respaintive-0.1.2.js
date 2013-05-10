@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  var ContextState, Move, MoveHistory, Point, adjustCanvasSize, body, canvas, clearCanvas, closeSettings, color, colors, context, contextState, currentMove, defaultLineCap, defaultLineJoin, defaultLineWidth, defaultStrokeStyle, disable, draw, enable, executeRedo, executeTrash, executeUndo, executeUndoAll, getEventX, getEventY, hideSettings, isDrawing, openSettings, redo, redoHistory, selectColor, selectTool, settings, showSettings, startDrawing, stopDrawing, tool, tools, trash, undo, undoAll, undoHistory, _i, _j, _k, _l, _len, _len1, _len2, _len3;
+  var ContextState, Move, MoveHistory, Point, adjustCanvasSize, body, canvas, clearCanvas, closeSettings, color, colors, context, contextState, currentMove, defaultLineCap, defaultLineJoin, defaultLineWidth, defaultStrokeStyle, disable, draw, enable, executeRedo, executeTrash, executeUndo, executeUndoAll, getEventX, getEventY, hideSettings, isDrawing, openSettings, redo, redoHistory, regexpPixelValue, selectColor, selectTool, settings, showSettings, startDrawing, stopDrawing, tool, tools, trash, undo, undoAll, undoHistory, _i, _j, _k, _l, _len, _len1, _len2, _len3;
 
   ContextState = (function() {
     function ContextState() {}
@@ -123,6 +123,8 @@
 
   defaultLineWidth = 1;
 
+  regexpPixelValue = /(\d+)px/;
+
   context = canvas.getContext('2d');
 
   contextState = new ContextState();
@@ -136,15 +138,15 @@
   undoHistory = new MoveHistory();
 
   getEventX = function(event) {
-    var bodyOffset, x;
+    var bodyOffset, right, x;
 
-    bodyOffset = body.className === 'offset' ? 280 : 0;
+    right = (window.getComputedStyle(body)).right;
+    bodyOffset = regexpPixelValue.test(right) ? +(regexpPixelValue.exec(right))[1] : 0;
     x = event.offsetX ? event.offsetX : event.pageX - canvas.offsetLeft + bodyOffset;
     if (event.touches) {
-      return event.touches[0].screenX - canvas.offsetLeft + bodyOffset;
-    } else {
-      return x;
+      x = event.touches[0].screenX - canvas.offsetLeft + bodyOffset;
     }
+    return x;
   };
 
   getEventY = function(event) {
@@ -152,10 +154,9 @@
 
     y = event.offsetY ? event.offsetY : event.pageY - canvas.offsetTop;
     if (event.touches) {
-      return event.touches[0].screenY - canvas.offsetTop;
-    } else {
-      return y;
+      y = event.touches[0].screenY - canvas.offsetTop;
     }
+    return y;
   };
 
   startDrawing = function(event) {

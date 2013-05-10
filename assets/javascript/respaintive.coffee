@@ -77,6 +77,9 @@ defaultLineCap     = 'round'
 defaultLineJoin    = 'round'
 defaultLineWidth   = 1
 
+# regular expressions
+regexpPixelValue = /(\d+)px/
+
 # drawing context
 context = canvas.getContext '2d'
 
@@ -91,14 +94,17 @@ undoHistory = new MoveHistory()
 
 # Extract coordinates from events.
 getEventX = (event) ->
-  bodyOffset = if body.className == 'offset' then 280 else 0
+  right = (window.getComputedStyle body).right
+  bodyOffset = if regexpPixelValue.test right then +(regexpPixelValue.exec right)[1] else 0
 
   x = if event.offsetX then event.offsetX else event.pageX - canvas.offsetLeft  + bodyOffset
-  if event.touches then event.touches[0].screenX - canvas.offsetLeft + bodyOffset else x
+  x = event.touches[0].screenX - canvas.offsetLeft + bodyOffset if event.touches
+  x
 
 getEventY = (event) ->
   y = if event.offsetY then event.offsetY else event.pageY - canvas.offsetTop
-  if event.touches then event.touches[0].screenY - canvas.offsetTop else y
+  y = event.touches[0].screenY - canvas.offsetTop if event.touches
+  y
 
 
 ####################
