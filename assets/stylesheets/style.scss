@@ -1,4 +1,5 @@
 @import 'normalize.scss';
+@import 'media-queries.scss';
 
 $color-black:  #3e3e3e;
 $color-blue:   #3581fc;
@@ -34,6 +35,14 @@ $icon-close:    '\e007';
 body {
   padding: 0.6em 1em;
   position: relative;
+
+  &.offset {
+    right: 28em;
+
+    @media (#{ $media-query-medium }) {
+      right: 0;
+    }
+  }
 }
 
 canvas {
@@ -119,6 +128,10 @@ ol {
     &:last-of-type,
     &:nth-of-type(4n) {
       margin-right: 0;
+
+      @media (#{ $media-query-medium }) {
+        margin-right: 0.3125em; // 5px
+      }
     }
 
     &.active {
@@ -141,6 +154,14 @@ p {
 section {
   float: left;
   margin-bottom: 1.2em;
+
+  @media (#{ $media-query-medium }) {
+    margin: 0 2em 0 0;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
 }
 
 #brush {
@@ -219,6 +240,19 @@ section {
   bottom: 0;
   left: 100%;
   width: 26em;
+
+  &.offset {
+    display: block;
+  }
+
+  @media (#{ $media-query-medium }) {
+    background: none;
+    display: block;
+    left: 0;
+    padding: 0;
+    position: relative;
+    width: 100%;
+  }
 }
 
 #settings-close,
@@ -229,6 +263,10 @@ section {
   overflow: hidden;
   padding: 0.6em 1em;
   text-align: center;
+
+  @media ($media-query-medium) {
+    display: none;
+  }
 
   > a {
     color: $color-black;

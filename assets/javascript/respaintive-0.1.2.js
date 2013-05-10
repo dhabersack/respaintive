@@ -310,14 +310,14 @@
   };
 
   hideSettings = function(event) {
-    body.style.right = '0px';
-    settings.style.display = 'none';
+    body.className = '';
+    settings.className = '';
     return event.preventDefault();
   };
 
   showSettings = function(event) {
-    body.style.right = '280px';
-    settings.style.display = 'block';
+    body.className = 'offset';
+    settings.className = 'offset';
     return event.preventDefault();
   };
 

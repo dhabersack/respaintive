@@ -4,6 +4,7 @@ module.exports = (grunt) ->
 
     clean:
       build: ['build']
+      scripts: ['assets/javascript/*.js', '!assets/javascript/<%= pkg.name %>-<%= pkg.version %>.js', '!assets/javascript/<%= pkg.name %>-<%= pkg.version %>.min.js']
 
     coffee:
       compile:
@@ -56,6 +57,9 @@ module.exports = (grunt) ->
       stylesheets:
         files: 'assets/stylesheets/**/*.scss'
         tasks: 'sass'
+      package:
+        files: 'package.json'
+        tasks: ['clean:scripts', 'coffee', 'jshint:development', 'uglify']
 
   # Load plugins
   grunt.loadNpmTasks 'grunt-contrib-clean'
@@ -66,5 +70,5 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
-  grunt.registerTask 'default', ['sass', 'coffee', 'jshint:development', 'uglify', 'watch']
-  grunt.registerTask 'build', ['sass', 'coffee', 'jshint:production', 'uglify', 'clean:build', 'copy:build']
+  grunt.registerTask 'default', ['sass', 'clean:scripts', 'coffee', 'jshint:development', 'uglify', 'watch']
+  grunt.registerTask 'build', ['sass', 'clean:scripts', 'coffee', 'jshint:production', 'uglify', 'clean:build', 'copy:build']
